@@ -13,6 +13,7 @@ public class Frame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        setTitle("Sorter");
         setVisible(true);
     }
 }

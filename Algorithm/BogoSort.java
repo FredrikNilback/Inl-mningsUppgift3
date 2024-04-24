@@ -2,27 +2,47 @@ package Algorithm;
 
 import java.util.Random;
 
-public class BogoSort {
+import View.Panel;
+
+public class BogoSort extends SuperSort implements ISort{
     
-    int[] originalArray;
-    int[] unsortedArray;
-    int[] sortedArray;
-    boolean unsorted = true;
+    boolean unsorted;
 
-    public BogoSort(int[] originalArray) {
+    public BogoSort(int[] originalArray, Panel panel) {
         
-        this.originalArray = originalArray;
-        this.unsortedArray = originalArray;
+        super(originalArray, panel);
 
+    }
+
+    @Override
+    public void sort() {
+
+        unsorted = true;
+        panel.setProgressIndex(1);
+        int progress = 0;
+        panel.setProgress(0);
+
+        long lastIndexUpdate = System.currentTimeMillis();
+        final int millisPerUpdate = 100;
+        
         while(unsorted) {
             shuffle();
             checkIfSorted();
+            
+            if (System.currentTimeMillis() - lastIndexUpdate >= millisPerUpdate) {
+                lastIndexUpdate = System.currentTimeMillis();
+                progress++;
+                if (progress >= 15) {
+                    progress = 0;
+                }
+                panel.setProgress(progress);
+            }
         }
         sortedArray = unsortedArray;
+        panel.setProgressIndex(0);
+        panel.setProgress(9);
 
-        for (int i = 0; i < sortedArray.length; i++) {
-            System.out.print(sortedArray[i] + ", ");
-        }
+        panel.setSortedArray(sortedArray);
     }
 
     private void shuffle() {
@@ -40,7 +60,7 @@ public class BogoSort {
 
         int previous = Integer.MIN_VALUE;
         unsorted = false;
-        for (int i = 0; i < originalArray.length; i++) {
+        for (int i = 0; i < unsortedArray.length; i++) {
             if (unsortedArray[i] < previous) {
                 unsorted = true;
                 break;
