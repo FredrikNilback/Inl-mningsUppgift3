@@ -14,6 +14,7 @@ public class QuickSort extends SuperSort implements ISort {
         panel.setBogo(false);
         panel.setProgress(0);
 
+        long beforeSortTime = System.nanoTime();
         if(unsortedArray == null || unsortedArray.length <= 1) {
 
             sortedArray = unsortedArray;
@@ -26,6 +27,11 @@ public class QuickSort extends SuperSort implements ISort {
 
         sortedArray = unsortedArray;
         panel.setProgress(9);
+
+        long nanosToSort = System.nanoTime() - beforeSortTime;
+        double secondsToSort = (double)nanosToSort / 1000000000;
+        System.out.println("Sort Time: " + secondsToSort + " seconds");  
+
         panel.setSortedArray(sortedArray);
     }
 
@@ -37,7 +43,7 @@ public class QuickSort extends SuperSort implements ISort {
             quickSort(arrayToBeSorted, leftIndex, pivotPoint - 1);
             quickSort(arrayToBeSorted, pivotPoint + 1, rightIndex);
 
-            int totalElements = arrayToBeSorted.length;
+            int totalElements = rightIndex - leftIndex + 1;
             int elementsProcessed = pivotPoint - leftIndex + rightIndex - pivotPoint;
             double progress = (double) elementsProcessed / totalElements * 9;
             panel.setProgress((int) Math.ceil(progress));

@@ -17,6 +17,8 @@ public class BubbleSort extends SuperSort implements ISort {
         boolean swapped = true;
         int approximatedProgress = 0;
         int passes = 0;
+
+        long beforeSortTime = System.nanoTime();
         while(true) {
             
             swapped = false; 
@@ -41,6 +43,10 @@ public class BubbleSort extends SuperSort implements ISort {
 
         sortedArray = unsortedArray;
         panel.setProgress(9);
+
+        long nanosToSort = System.nanoTime() - beforeSortTime;
+        double secondsToSort = (double)nanosToSort / 1000000000;
+        System.out.println("Sort Time: " + secondsToSort + " seconds"); 
 
         panel.setSortedArray(sortedArray);
         

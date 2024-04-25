@@ -16,6 +16,7 @@ public class SelectionSort extends SuperSort implements ISort {
         sortedArray = new int[unsortedArray.length];
         boolean[] indicesUsed = new boolean[unsortedArray.length]; 
 
+        long beforeSortTime = System.nanoTime();
         for(int i = 0; i < sortedArray.length; i++) {
             int minimumValueFound = Integer.MAX_VALUE;
             int minimumIndex = -1; 
@@ -40,6 +41,11 @@ public class SelectionSort extends SuperSort implements ISort {
         }
 
         panel.setProgress(9);
+
+        long nanosToSort = System.nanoTime() - beforeSortTime;
+        double secondsToSort = (double)nanosToSort / 1000000000;
+        System.out.println("Sort Time: " + secondsToSort + " seconds"); 
+
         panel.setSortedArray(sortedArray);
 
     }

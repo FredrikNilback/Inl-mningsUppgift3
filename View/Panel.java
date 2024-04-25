@@ -319,7 +319,7 @@ public class Panel extends JPanel {
                                     setArrayToBeSorted(setArray);
                                 }
                             
-                                QuickSort quickSort = new QuickSort(arrayToBeSorted, Panel.this);
+                                QuickSort quickSort = new QuickSort(arrayToBeSorted.clone(), Panel.this);
                                 quickSort.sort();
 
                                 if(Panel.this.changeIndex) {
@@ -356,7 +356,7 @@ public class Panel extends JPanel {
                                     setArrayToBeSorted(setArray);
                                 }
                                 
-                                MergeSort mergeSort = new MergeSort(arrayToBeSorted, Panel.this);
+                                MergeSort mergeSort = new MergeSort(arrayToBeSorted.clone(), Panel.this);
                                 mergeSort.sort();
 
                                 if(Panel.this.changeIndex) {
@@ -385,16 +385,22 @@ public class Panel extends JPanel {
                                 setSortedArray(new int[0]);
                                 if(!skipLoading) {
 
+                                    long beforeLoadTime = System.currentTimeMillis();
                                     String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
                                     int[] setArray = new int[stringSetArray.length];
                                     for (int i = 0; i < stringSetArray.length; i++) {
                                         setArray[i] = Integer.parseInt(stringSetArray[i]);
                                     }
                                     setArrayToBeSorted(setArray);
+                                    long millisToLoad = System.currentTimeMillis() - beforeLoadTime;
+                                    double secondsToLoad = millisToLoad / 1000;
+                                    System.out.println("Load Time: " + secondsToLoad + " seconds");
                                 }
 
-                                BubbleSort bubbleSort = new BubbleSort(arrayToBeSorted, Panel.this);
+                                
+                                BubbleSort bubbleSort = new BubbleSort(arrayToBeSorted.clone(), Panel.this);
                                 bubbleSort.sort();
+                                 
 
                                 if(Panel.this.changeIndex) {
 
@@ -430,7 +436,7 @@ public class Panel extends JPanel {
                                     setArrayToBeSorted(setArray);
                                 }
 
-                                SelectionSort selectionSort = new SelectionSort(arrayToBeSorted, Panel.this);
+                                SelectionSort selectionSort = new SelectionSort(arrayToBeSorted.clone(), Panel.this);
                                 selectionSort.sort();
 
                                 if(Panel.this.changeIndex) {
@@ -467,7 +473,7 @@ public class Panel extends JPanel {
                                     setArrayToBeSorted(setArray);
                                 }
     
-                                BogoSort bogoSort = new BogoSort(arrayToBeSorted, Panel.this);
+                                BogoSort bogoSort = new BogoSort(arrayToBeSorted.clone(), Panel.this);
                                 bogoSort.sort();
 
                                 if(Panel.this.changeIndex) {
@@ -541,17 +547,26 @@ public class Panel extends JPanel {
     public void setSortedArray(int[] array) {
         this.sortedArray = array;
         String arrayText = "";
+
+        long beforePrintTime = System.nanoTime();
         for(int i = 0; i < sortedArray.length - 1; i++) {
             arrayText += sortedArray[i] + ", "; 
             if(i % 15 == 0 && i != 0) {
                 arrayText += "\n";
             }
         }
-
         if(sortedArray.length != 0) {
             arrayText += sortedArray[sortedArray.length - 1];
         }
+
         this.sortedArrayText.setText(arrayText);
+
+        if(array.length != 0) {
+            long nanosToPrint = System.nanoTime() - beforePrintTime;
+            double secondsToPrint = (double) nanosToPrint / 1000000000;
+            System.out.println("Print Time: " + secondsToPrint + " seconds");
+        }
+        
 
     }
 }

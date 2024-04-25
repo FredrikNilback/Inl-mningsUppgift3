@@ -16,6 +16,7 @@ public class MergeSort extends SuperSort implements ISort {
         panel.setBogo(false);
         panel.setProgress(0);
 
+        long beforeSortTime = System.nanoTime();
         if(unsortedArray == null || unsortedArray.length <= 1) {
 
             sortedArray = unsortedArray;
@@ -29,6 +30,11 @@ public class MergeSort extends SuperSort implements ISort {
 
         sortedArray = unsortedArray;
         panel.setProgress(9);
+
+        long nanosToSort = System.nanoTime() - beforeSortTime;
+        double secondsToSort = (double)nanosToSort / 1000000000;
+        System.out.println("Sort Time: " + secondsToSort + " seconds"); 
+
         panel.setSortedArray(sortedArray);
     }
 

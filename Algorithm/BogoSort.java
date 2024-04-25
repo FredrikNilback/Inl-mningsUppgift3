@@ -25,6 +25,7 @@ public class BogoSort extends SuperSort implements ISort{
         long lastIndexUpdate = System.currentTimeMillis();
         final int millisPerUpdate = 100;
         
+        long beforeSortTime = System.nanoTime();
         while(unsorted) {
             shuffle();
             checkIfSorted();
@@ -42,6 +43,11 @@ public class BogoSort extends SuperSort implements ISort{
         sortedArray = unsortedArray;
         panel.setBogo(false);
         panel.setProgress(9);
+
+        long nanosToSort = System.nanoTime() - beforeSortTime;
+        double secondsToSort = (double)nanosToSort / 1000000000;
+        System.out.println("Sort Time: " + secondsToSort + " seconds");  
+
         panel.setSortedArray(sortedArray);
     }
 
