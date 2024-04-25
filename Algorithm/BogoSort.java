@@ -32,15 +32,16 @@ public class BogoSort extends SuperSort implements ISort{
             if (System.currentTimeMillis() - lastIndexUpdate >= millisPerUpdate) {
                 lastIndexUpdate = System.currentTimeMillis();
                 progress++;
-                if (progress >= 15) {
+                if (progress >= 16) {
                     progress = 0;
                 }
                 panel.setProgress(progress);
             }
         }
-        sortedArray = unsortedArray;
-        panel.setProgress(9);
 
+        sortedArray = unsortedArray;
+        panel.setBogo(false);
+        panel.setProgress(9);
         panel.setSortedArray(sortedArray);
     }
 

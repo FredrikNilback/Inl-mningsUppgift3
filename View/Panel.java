@@ -37,18 +37,18 @@ public class Panel extends JPanel {
 
     private JButton loadButton, saveUnsorted, saveSorted;
     private JButton[] button;
-    private int[] arrayToBeSorted, sortedArray, progress;
-    private JScrollPane originalScrollPane, sortedScrollPane;
+    private int[] arrayToBeSorted, sortedArray;
+    private int progress;
     private JTextArea originalArrayText, sortedArrayText; 
     private JLabel progressLabel;
     private BufferedImage progressLabelImage;
     protected int index = -1;
-    protected boolean changeIndex = false, skipLoading = false;
+    protected boolean changeIndex = false, skipLoading = false, bogo = false;
 
     public Panel(int width, int height) {
 
         dimension = new Dimension(width, height);
-        progress = new int[]{0,0};
+        progress = 0;
         setMinimumSize(dimension);
         setPreferredSize(dimension);
         setMaximumSize(dimension);
@@ -92,7 +92,11 @@ public class Panel extends JPanel {
         
         try {
             progressLabelImage = ImageIO.read(inputStream);
-            progressLabel.setIcon(new ImageIcon(progressLabelImage.getSubimage(progress[1] * progressLabelSize[0], progress[0] * progressLabelSize[1], progressLabelSize[0], progressLabelSize[1])));
+            int yValue = 0;
+            if(this.bogo) {
+                yValue = 1;
+            }
+            progressLabel.setIcon(new ImageIcon(progressLabelImage.getSubimage(progress * progressLabelSize[0], yValue * progressLabelSize[1], progressLabelSize[0], progressLabelSize[1])));
         } 
         catch (Exception e) {
             e.printStackTrace();
@@ -490,7 +494,11 @@ public class Panel extends JPanel {
         final int bounds = 8;
         final int[] progressLabelSize = new int[] {(this.getWidth()) - bounds * 4 - 500 * 2, 425};
 
-        this.progressLabel.setIcon(new ImageIcon(progressLabelImage.getSubimage(progress[1] * progressLabelSize[0], progress[0] * progressLabelSize[1], progressLabelSize[0], progressLabelSize[1])));
+        int yValue = 0;
+        if (bogo) {
+            yValue = 1;
+        }
+        this.progressLabel.setIcon(new ImageIcon(progressLabelImage.getSubimage(progress * progressLabelSize[0], yValue * progressLabelSize[1], progressLabelSize[0], progressLabelSize[1])));
         revalidate();
         repaint();
     }
@@ -517,21 +525,16 @@ public class Panel extends JPanel {
         if (progress < 0) {
             progress = 0;
         }
-        else if(progress > 9) {
+        else if(progress > 9 && !bogo) {
             progress = 9;
         }
-        this.progress[1] = progress;
+        this.progress = progress;
         updateProgressLabel();  
     }
 
     public void setBogo(boolean bogo) {
         
-        if(bogo) {
-            this.progress[0] = 1;
-        }
-        else {
-            this.progress[0] = 0;
-        }
+        this.bogo = bogo;
         updateProgressLabel();
     }
 
