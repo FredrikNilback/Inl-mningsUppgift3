@@ -11,7 +11,7 @@ public class SelectionSort extends SuperSort implements ISort {
     @Override
     public void sort() {
 
-        panel.setProgressIndex(0);
+        panel.setBogo(false);
         panel.setProgress(0);
         sortedArray = new int[unsortedArray.length];
         boolean[] indicesUsed = new boolean[unsortedArray.length]; 
@@ -39,9 +39,7 @@ public class SelectionSort extends SuperSort implements ISort {
             panel.setProgress(completionNumber);
         }
 
-        panel.setProgressIndex(0);
         panel.setProgress(9);
-
         panel.setSortedArray(sortedArray);
 
     }

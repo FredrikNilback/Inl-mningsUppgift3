@@ -3,26 +3,32 @@ package Algorithm;
 import View.Panel;
 
 public class MergeSort extends SuperSort implements ISort {
+
+    private int totalMergeSteps;
     
     public MergeSort(int[] originalArray, Panel panel) {
         super(originalArray, panel);
-
-
     }
 
     @Override
     public void sort() {
 
+        panel.setBogo(false);
+        panel.setProgress(0);
+
         if(unsortedArray == null || unsortedArray.length <= 1) {
+
+            sortedArray = unsortedArray;
+            panel.setProgress(9);
+            panel.setSortedArray(sortedArray);
             return;
         }
         
+        totalMergeSteps = calculateTotalMergeSteps(unsortedArray.length);
         mergeSort(unsortedArray, 0, unsortedArray.length - 1);
 
         sortedArray = unsortedArray;
-        panel.setProgressIndex(0);
         panel.setProgress(9);
-
         panel.setSortedArray(sortedArray);
     }
 
@@ -35,6 +41,10 @@ public class MergeSort extends SuperSort implements ISort {
             mergeSort(divideArray, middleIndex + 1, rightIndex);
             
             merge(divideArray, leftIndex, middleIndex, rightIndex);
+
+            int currentMergeStep = calculateMergeStep(leftIndex, rightIndex);
+            int progress = (int) ((double) currentMergeStep / totalMergeSteps * 9);
+            panel.setProgress(progress);
         }
     }
 
@@ -45,7 +55,6 @@ public class MergeSort extends SuperSort implements ISort {
         
         int[] leftArray = new int[leftArraySize];
         int[] rightArray = new int[rightArraySize];
-        
         for(int i = 0; i < leftArraySize; i++) {
             leftArray[i] = mergeArray[leftIndex + i];
         }
@@ -53,10 +62,8 @@ public class MergeSort extends SuperSort implements ISort {
             rightArray[j] = mergeArray[middleIndex + 1 + j];
         }
         
-        int i = 0, j = 0;
-        int k = leftIndex;
-        
-        while (i < leftArraySize && j < rightArraySize) {
+        int i = 0, j = 0, k = leftIndex;
+        while(i < leftArraySize && j < rightArraySize) {
 
             if (leftArray[i] <= rightArray[j]) {
 
@@ -71,19 +78,27 @@ public class MergeSort extends SuperSort implements ISort {
             k++;
         }
         
-        while (i < leftArraySize) {
+        while(i < leftArraySize) {
 
             mergeArray[k] = leftArray[i];
             i++;
             k++;
         }
         
-        while (j < rightArraySize) {
+        while(j < rightArraySize) {
 
             mergeArray[k] = rightArray[j];
             j++;
             k++;
         }
+    }
+
+    private int calculateTotalMergeSteps(int length) {
+        return (int)(Math.ceil(Math.log(length) / Math.log(2)));
+    }
+
+    private int calculateMergeStep(int leftIndex, int rightIndex) {
+        return (int)(Math.log(rightIndex - leftIndex + 1) / Math.log(2));
     }
 
 

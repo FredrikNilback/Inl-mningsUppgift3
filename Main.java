@@ -5,7 +5,6 @@ public class Main {
         
         new Program();
 
-       //int[] bogoTest = new int[] {1,3,2,5,17,13,15,21};
-       //new BogoSort(bogoTest);
+       //Look in to Strategy design pattern, maybe use strategy for ISort?
     }
 }

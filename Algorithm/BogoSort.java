@@ -18,7 +18,7 @@ public class BogoSort extends SuperSort implements ISort{
     public void sort() {
 
         unsorted = true;
-        panel.setProgressIndex(1);
+        panel.setBogo(true);
         int progress = 0;
         panel.setProgress(0);
 
@@ -39,7 +39,6 @@ public class BogoSort extends SuperSort implements ISort{
             }
         }
         sortedArray = unsortedArray;
-        panel.setProgressIndex(0);
         panel.setProgress(9);
 
         panel.setSortedArray(sortedArray);

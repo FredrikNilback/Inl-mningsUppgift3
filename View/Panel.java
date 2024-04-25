@@ -26,6 +26,7 @@ import javax.swing.ScrollPaneConstants;
 import Algorithm.BogoSort;
 import Algorithm.BubbleSort;
 import Algorithm.MergeSort;
+import Algorithm.QuickSort;
 import Algorithm.SelectionSort;
 import Arrays.SaveUnsorted;
 import Arrays.SaveSorted;
@@ -42,7 +43,7 @@ public class Panel extends JPanel {
     private JLabel progressLabel;
     private BufferedImage progressLabelImage;
     protected int index = -1;
-    protected boolean changeIndex = false;
+    protected boolean changeIndex = false, skipLoading = false;
 
     public Panel(int width, int height) {
 
@@ -145,6 +146,7 @@ public class Panel extends JPanel {
                 String rawString = Panel.this.originalArrayText.getText();
                 String[] itemsToSave = rawString.split(",\\s*|,|\\s+");
                 Panel.this.changeIndex = true;
+                Panel.this.skipLoading = false;
                 new SaveUnsorted(itemsToSave);
                 
             }
@@ -209,11 +211,12 @@ public class Panel extends JPanel {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             setProgress(0);
-                            setProgressIndex(0);
+                            setBogo(false);
                             setSortedArray(new int[0]);
                             setArrayToBeSorted(arrayMatrix.get(index));
                             Panel.this.index = index;
                             Panel.this.changeIndex = false;
+                            Panel.this.skipLoading = true;
                             loadFrame.dispose();
                         }
                     });
@@ -294,11 +297,37 @@ public class Panel extends JPanel {
         switch (buttonIndex) {
             case 0:
                 button.addActionListener(new ActionListener() {
-                    
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        setSortedArray(new int[0]);
-                        
+                        SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+
+                            @Override
+                            protected Void doInBackground() throws Exception {
+
+                                setSortedArray(new int[0]);
+                                if(!skipLoading) {
+
+                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
+                                    int[] setArray = new int[stringSetArray.length];
+                                    for (int i = 0; i < stringSetArray.length; i++) {
+                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                    }
+                                    setArrayToBeSorted(setArray);
+                                }
+                            
+                                QuickSort quickSort = new QuickSort(arrayToBeSorted, Panel.this);
+                                quickSort.sort();
+
+                                if(Panel.this.changeIndex) {
+
+                                    ArrayList<int[]> arrayMatrix = loadCSV();
+                                    Panel.this.index = arrayMatrix.size() - 1;
+                                }
+                
+                                return null;
+                            }
+                        };
+                        worker.execute();
                     }
                 });
                 break;
@@ -313,16 +342,21 @@ public class Panel extends JPanel {
                             protected Void doInBackground() throws Exception {
 
                                 setSortedArray(new int[0]);
-                                String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                int[] setArray = new int[stringSetArray.length];
-                                for (int i = 0; i < stringSetArray.length; i++) {
-                                    setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                if(!skipLoading) {
+
+                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
+                                    int[] setArray = new int[stringSetArray.length];
+                                    for (int i = 0; i < stringSetArray.length; i++) {
+                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                    }
+                                    setArrayToBeSorted(setArray);
                                 }
-                                setArrayToBeSorted(setArray);
                                 
                                 MergeSort mergeSort = new MergeSort(arrayToBeSorted, Panel.this);
                                 mergeSort.sort();
+
                                 if(Panel.this.changeIndex) {
+
                                     ArrayList<int[]> arrayMatrix = loadCSV();
                                     Panel.this.index = arrayMatrix.size() - 1;
                                 }
@@ -345,16 +379,21 @@ public class Panel extends JPanel {
                             protected Void doInBackground() throws Exception {
                                 
                                 setSortedArray(new int[0]);
-                                String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                int[] setArray = new int[stringSetArray.length];
-                                for (int i = 0; i < stringSetArray.length; i++) {
-                                    setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                if(!skipLoading) {
+
+                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
+                                    int[] setArray = new int[stringSetArray.length];
+                                    for (int i = 0; i < stringSetArray.length; i++) {
+                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                    }
+                                    setArrayToBeSorted(setArray);
                                 }
-                                setArrayToBeSorted(setArray);
 
                                 BubbleSort bubbleSort = new BubbleSort(arrayToBeSorted, Panel.this);
                                 bubbleSort.sort();
+
                                 if(Panel.this.changeIndex) {
+
                                     ArrayList<int[]> arrayMatrix = loadCSV();
                                     Panel.this.index = arrayMatrix.size() - 1;
                                 }
@@ -377,16 +416,21 @@ public class Panel extends JPanel {
                             protected Void doInBackground() throws Exception {
                                 
                                 setSortedArray(new int[0]);
-                                String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                int[] setArray = new int[stringSetArray.length];
-                                for (int i = 0; i < stringSetArray.length; i++) {
-                                    setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                if(!skipLoading) {
+
+                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
+                                    int[] setArray = new int[stringSetArray.length];
+                                    for (int i = 0; i < stringSetArray.length; i++) {
+                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                    }
+                                    setArrayToBeSorted(setArray);
                                 }
-                                setArrayToBeSorted(setArray);
 
                                 SelectionSort selectionSort = new SelectionSort(arrayToBeSorted, Panel.this);
                                 selectionSort.sort();
+
                                 if(Panel.this.changeIndex) {
+
                                     ArrayList<int[]> arrayMatrix = loadCSV();
                                     Panel.this.index = arrayMatrix.size() - 1;
                                 }
@@ -409,16 +453,21 @@ public class Panel extends JPanel {
                             protected Void doInBackground() throws Exception {
                                 
                                 setSortedArray(new int[0]);
-                                String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                int[] setArray = new int[stringSetArray.length];
-                                for (int i = 0; i < stringSetArray.length; i++) {
-                                    setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                if(!skipLoading) {
+
+                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
+                                    int[] setArray = new int[stringSetArray.length];
+                                    for (int i = 0; i < stringSetArray.length; i++) {
+                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
+                                    }
+                                    setArrayToBeSorted(setArray);
                                 }
-                                setArrayToBeSorted(setArray);
     
                                 BogoSort bogoSort = new BogoSort(arrayToBeSorted, Panel.this);
                                 bogoSort.sort();
+
                                 if(Panel.this.changeIndex) {
+
                                     ArrayList<int[]> arrayMatrix = loadCSV();
                                     Panel.this.index = arrayMatrix.size() - 1;
                                 }
@@ -465,13 +514,24 @@ public class Panel extends JPanel {
     //getters & setters
     public void setProgress(int progress) {
 
+        if (progress < 0) {
+            progress = 0;
+        }
+        else if(progress > 9) {
+            progress = 9;
+        }
         this.progress[1] = progress;
         updateProgressLabel();  
     }
 
-    public void setProgressIndex(int index) {
-
-        this.progress[0] = index;
+    public void setBogo(boolean bogo) {
+        
+        if(bogo) {
+            this.progress[0] = 1;
+        }
+        else {
+            this.progress[0] = 0;
+        }
         updateProgressLabel();
     }
 
@@ -491,6 +551,4 @@ public class Panel extends JPanel {
         this.sortedArrayText.setText(arrayText);
 
     }
-
-
 }

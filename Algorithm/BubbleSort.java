@@ -12,7 +12,7 @@ public class BubbleSort extends SuperSort implements ISort {
     @Override
     public void sort() {
         
-        panel.setProgressIndex(0);
+        panel.setBogo(false);
         panel.setProgress(0);
         boolean swapped = true;
         int approximatedProgress = 0;
@@ -40,7 +40,6 @@ public class BubbleSort extends SuperSort implements ISort {
         }
 
         sortedArray = unsortedArray;
-        panel.setProgressIndex(0);
         panel.setProgress(9);
 
         panel.setSortedArray(sortedArray);
