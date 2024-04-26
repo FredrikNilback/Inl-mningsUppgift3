@@ -8,7 +8,7 @@ public class SuperSort {
     Panel panel;
 
     public SuperSort(int[] originalArray, Panel panel) {
-        this.unsortedArray = originalArray;
+        this.unsortedArray = originalArray.clone();
         this.panel = panel;
     }
     

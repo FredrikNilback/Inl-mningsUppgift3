@@ -22,15 +22,17 @@ public class QuickSort extends SuperSort implements ISort {
             panel.setSortedArray(sortedArray);
             return;
         }
-        
-        quickSort(unsortedArray, 0, unsortedArray.length - 1);
 
-        sortedArray = unsortedArray;
+        int[] arrayCopy = unsortedArray.clone();
+        quickSort(arrayCopy, 0, arrayCopy.length - 1);
+
+        sortedArray = arrayCopy;
         panel.setProgress(9);
 
         long nanosToSort = System.nanoTime() - beforeSortTime;
         double secondsToSort = (double)nanosToSort / 1000000000;
-        System.out.println("Sort Time: " + secondsToSort + " seconds");  
+        String secondsToSortString = "" + secondsToSort;
+        panel.setStatisticsMessage(secondsToSortString, 1);  
 
         panel.setSortedArray(sortedArray);
     }

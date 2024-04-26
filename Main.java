@@ -3,6 +3,6 @@ public class Main {
         
         new Program();
 
-       //Look in to Strategy design pattern, maybe use strategy for ISort?
+       // Adapted design pattern?
     }
 }

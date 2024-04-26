@@ -18,16 +18,17 @@ public class BubbleSort extends SuperSort implements ISort {
         int approximatedProgress = 0;
         int passes = 0;
 
+        int[] arrayCopy = unsortedArray.clone();
         long beforeSortTime = System.nanoTime();
         while(true) {
             
             swapped = false; 
-            for(int i = 0; i < unsortedArray.length - 1; i++) {
+            for(int i = 0; i < arrayCopy.length - 1; i++) {
     
-                if(unsortedArray[i] > unsortedArray[i + 1]) {
-                    int temp = unsortedArray[i];
-                    unsortedArray[i] = unsortedArray[i + 1];
-                    unsortedArray[i + 1] = temp;
+                if(arrayCopy[i] > arrayCopy[i + 1]) {
+                    int temp = arrayCopy[i];
+                    arrayCopy[i] = arrayCopy[i + 1];
+                    arrayCopy[i + 1] = temp;
                     swapped = true;
                 }
             }
@@ -37,16 +38,17 @@ public class BubbleSort extends SuperSort implements ISort {
             }
 
             passes++;
-            approximatedProgress = Math.min(9, (passes * 9) / unsortedArray.length);
+            approximatedProgress = Math.min(9, (passes * 9) / arrayCopy.length);
             panel.setProgress(approximatedProgress);
         }
 
-        sortedArray = unsortedArray;
+        sortedArray = arrayCopy;
         panel.setProgress(9);
 
         long nanosToSort = System.nanoTime() - beforeSortTime;
         double secondsToSort = (double)nanosToSort / 1000000000;
-        System.out.println("Sort Time: " + secondsToSort + " seconds"); 
+        String secondsToSortString = "" + secondsToSort;
+        panel.setStatisticsMessage(secondsToSortString, 1);  
 
         panel.setSortedArray(sortedArray);
         

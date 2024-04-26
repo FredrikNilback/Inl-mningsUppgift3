@@ -7,11 +7,12 @@ import View.Panel;
 public class BogoSort extends SuperSort implements ISort{
     
     boolean unsorted;
+    int[] arrayCopy;
 
     public BogoSort(int[] originalArray, Panel panel) {
         
         super(originalArray, panel);
-
+        arrayCopy = unsortedArray.clone();
     }
 
     @Override
@@ -40,13 +41,14 @@ public class BogoSort extends SuperSort implements ISort{
             }
         }
 
-        sortedArray = unsortedArray;
+        sortedArray = arrayCopy;
         panel.setBogo(false);
         panel.setProgress(9);
 
         long nanosToSort = System.nanoTime() - beforeSortTime;
         double secondsToSort = (double)nanosToSort / 1000000000;
-        System.out.println("Sort Time: " + secondsToSort + " seconds");  
+        String secondsToSortString = "" + secondsToSort;
+        panel.setStatisticsMessage(secondsToSortString, 1);    
 
         panel.setSortedArray(sortedArray);
     }
@@ -54,11 +56,11 @@ public class BogoSort extends SuperSort implements ISort{
     private void shuffle() {
 
         Random random = new Random();
-        for (int i = unsortedArray.length - 1; i > 0; i--) {
+        for (int i = arrayCopy.length - 1; i > 0; i--) {
             int index = random.nextInt(i + 1);
-            int temp = unsortedArray[index];
-            unsortedArray[index] = unsortedArray[i];
-            unsortedArray[i] = temp;
+            int temp = arrayCopy[index];
+            arrayCopy[index] = arrayCopy[i];
+            arrayCopy[i] = temp;
         }
     }
 
@@ -66,12 +68,12 @@ public class BogoSort extends SuperSort implements ISort{
 
         int previous = Integer.MIN_VALUE;
         unsorted = false;
-        for (int i = 0; i < unsortedArray.length; i++) {
-            if (unsortedArray[i] < previous) {
+        for (int i = 0; i < arrayCopy.length; i++) {
+            if (arrayCopy[i] < previous) {
                 unsorted = true;
                 break;
             }
-            previous = unsortedArray[i];
+            previous = arrayCopy[i];
         }
     }
 }

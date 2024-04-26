@@ -25,15 +25,17 @@ public class MergeSort extends SuperSort implements ISort {
             return;
         }
         
-        totalMergeSteps = calculateTotalMergeSteps(unsortedArray.length);
-        mergeSort(unsortedArray, 0, unsortedArray.length - 1);
+        int[] arrayCopy = unsortedArray.clone();
+        totalMergeSteps = calculateTotalMergeSteps(arrayCopy.length);
+        mergeSort(arrayCopy, 0, arrayCopy.length - 1);
 
-        sortedArray = unsortedArray;
+        sortedArray = arrayCopy;
         panel.setProgress(9);
 
         long nanosToSort = System.nanoTime() - beforeSortTime;
         double secondsToSort = (double)nanosToSort / 1000000000;
-        System.out.println("Sort Time: " + secondsToSort + " seconds"); 
+        String secondsToSortString = "" + secondsToSort;
+        panel.setStatisticsMessage(secondsToSortString, 1);   
 
         panel.setSortedArray(sortedArray);
     }

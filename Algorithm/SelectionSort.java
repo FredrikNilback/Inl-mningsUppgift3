@@ -16,18 +16,20 @@ public class SelectionSort extends SuperSort implements ISort {
         sortedArray = new int[unsortedArray.length];
         boolean[] indicesUsed = new boolean[unsortedArray.length]; 
 
+        int[] arrayCopy = unsortedArray.clone();
         long beforeSortTime = System.nanoTime();
         for(int i = 0; i < sortedArray.length; i++) {
             int minimumValueFound = Integer.MAX_VALUE;
             int minimumIndex = -1; 
     
-            for(int j = 0; j < unsortedArray.length; j++) {
+            for(int j = 0; j < arrayCopy.length; j++) {
+
                 if(indicesUsed[j]) {
                     continue;
                 }
     
-                if(unsortedArray[j] < minimumValueFound) {
-                    minimumValueFound = unsortedArray[j];
+                if(arrayCopy[j] < minimumValueFound) {
+                    minimumValueFound = arrayCopy[j];
                     minimumIndex = j;
                 }
             }
@@ -44,7 +46,8 @@ public class SelectionSort extends SuperSort implements ISort {
 
         long nanosToSort = System.nanoTime() - beforeSortTime;
         double secondsToSort = (double)nanosToSort / 1000000000;
-        System.out.println("Sort Time: " + secondsToSort + " seconds"); 
+        String secondsToSortString = "" + secondsToSort;
+        panel.setStatisticsMessage(secondsToSortString, 1);  
 
         panel.setSortedArray(sortedArray);
 
