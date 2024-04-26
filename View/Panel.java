@@ -137,6 +137,7 @@ public class Panel extends JPanel {
     }
 
     private void makeSaveButtons() {
+        
         final int buttonWidth = 256;
         final int buttonHeight = 64;
         final int[] unsortedPosition = new int[]{97, 550};
@@ -211,8 +212,8 @@ public class Panel extends JPanel {
                         @Override
                         public void actionPerformed(ActionEvent e) {
 
-                            setProgress(0);
                             setBogo(false);
+                            setProgress(0);
                             setSortedArray(new int[0]);
                             setArrayToBeSorted(arrayMatrix.get(index));
                             Panel.this.index = index;
@@ -305,19 +306,7 @@ public class Panel extends JPanel {
 
                                 setSortedArray(new int[0]);
                                 if(!skipLoading) {
-
-                                    long beforeLoadTime = System.nanoTime();
-
-                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                    int[] setArray = new int[stringSetArray.length];
-                                    for (int i = 0; i < stringSetArray.length; i++) {
-                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
-                                    }
-                                    setArrayToBeSorted(setArray.clone());
-
-                                    long nanosToLoad = System.nanoTime() - beforeLoadTime;
-                                    double secondsToLoad = (double)nanosToLoad / 1000000000;
-                                    System.out.println("Load Time: " + secondsToLoad + " seconds"); 
+                                    Panel.this.LoadArrayToBeSorted(); 
                                 }
                             
                                 QuickSort quickSort = new QuickSort(arrayToBeSorted.clone(), Panel.this);
@@ -348,19 +337,7 @@ public class Panel extends JPanel {
 
                                 setSortedArray(new int[0]);
                                 if(!skipLoading) {
-
-                                    long beforeLoadTime = System.nanoTime();
-
-                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                    int[] setArray = new int[stringSetArray.length];
-                                    for (int i = 0; i < stringSetArray.length; i++) {
-                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
-                                    }
-                                    setArrayToBeSorted(setArray.clone());
-
-                                    long nanosToLoad = System.nanoTime() - beforeLoadTime;
-                                    double secondsToLoad = (double)nanosToLoad / 1000000000;
-                                    System.out.println("Load Time: " + secondsToLoad + " seconds"); 
+                                    Panel.this.LoadArrayToBeSorted(); 
                                 }
                                 
                                 MergeSort mergeSort = new MergeSort(arrayToBeSorted.clone(), Panel.this);
@@ -391,19 +368,7 @@ public class Panel extends JPanel {
                                 
                                 setSortedArray(new int[0]);
                                 if(!skipLoading) {
-
-                                    long beforeLoadTime = System.nanoTime();
-
-                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                    int[] setArray = new int[stringSetArray.length];
-                                    for (int i = 0; i < stringSetArray.length; i++) {
-                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
-                                    }
-                                    setArrayToBeSorted(setArray.clone());
-
-                                    long nanosToLoad = System.nanoTime() - beforeLoadTime;
-                                    double secondsToLoad = (double)nanosToLoad / 1000000000;
-                                    System.out.println("Load Time: " + secondsToLoad + " seconds"); 
+                                    Panel.this.LoadArrayToBeSorted(); 
                                 }
                                 
                                 BubbleSort bubbleSort = new BubbleSort(arrayToBeSorted.clone(), Panel.this);
@@ -434,19 +399,7 @@ public class Panel extends JPanel {
                                 
                                 setSortedArray(new int[0]);
                                 if(!skipLoading) {
-
-                                    long beforeLoadTime = System.nanoTime();
-
-                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                    int[] setArray = new int[stringSetArray.length];
-                                    for (int i = 0; i < stringSetArray.length; i++) {
-                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
-                                    }
-                                    setArrayToBeSorted(setArray.clone());
-
-                                    long nanosToLoad = System.nanoTime() - beforeLoadTime;
-                                    double secondsToLoad = (double)nanosToLoad / 1000000000;
-                                    System.out.println("Load Time: " + secondsToLoad + " seconds"); 
+                                    Panel.this.LoadArrayToBeSorted(); 
                                 }
 
                                 SelectionSort selectionSort = new SelectionSort(arrayToBeSorted.clone(), Panel.this);
@@ -477,19 +430,7 @@ public class Panel extends JPanel {
                                 
                                 setSortedArray(new int[0]);
                                 if(!skipLoading) {
-
-                                    long beforeLoadTime = System.nanoTime();
-
-                                    String[] stringSetArray = Panel.this.originalArrayText.getText().split((",\\s*|,|\\s+"));
-                                    int[] setArray = new int[stringSetArray.length];
-                                    for (int i = 0; i < stringSetArray.length; i++) {
-                                        setArray[i] = Integer.parseInt(stringSetArray[i]);
-                                    }
-                                    setArrayToBeSorted(setArray.clone());
-
-                                    long nanosToLoad = System.nanoTime() - beforeLoadTime;
-                                    double secondsToLoad = (double)nanosToLoad / 1000000000;
-                                    System.out.println("Load Time: " + secondsToLoad + " seconds"); 
+                                    Panel.this.LoadArrayToBeSorted(); 
                                 }
     
                                 BogoSort bogoSort = new BogoSort(arrayToBeSorted.clone(), Panel.this);
@@ -512,6 +453,22 @@ public class Panel extends JPanel {
             default:
                 break;
         }
+    }
+
+    private void LoadArrayToBeSorted() {
+
+        long beforeLoadTime = System.nanoTime();
+
+        String[] stringSetArray = originalArrayText.getText().split((",\\s*|,|\\s+"));
+        int[] setArray = new int[stringSetArray.length];
+        for (int i = 0; i < stringSetArray.length; i++) {
+            setArray[i] = Integer.parseInt(stringSetArray[i]);
+        }
+        setArrayToBeSorted(setArray);
+
+        long nanosToLoad = System.nanoTime() - beforeLoadTime;
+        double secondsToLoad = (double)nanosToLoad / 1000000000;
+        System.out.println("Load Time: " + secondsToLoad + " seconds");
     }
 
     private void updateProgressLabel() {
@@ -553,6 +510,10 @@ public class Panel extends JPanel {
         else if(progress > 9 && !bogo) {
             progress = 9;
         }
+        else if(progress > 15 && bogo) {
+            progress = 15;
+        }
+        
         this.progress = progress;
         updateProgressLabel();  
     }
@@ -564,10 +525,11 @@ public class Panel extends JPanel {
     }
 
     public void setSortedArray(int[] array) {
+
         this.sortedArray = array;
         String arrayText = "";
-
         long beforePrintTime = 0;
+
         if(sortedArray.length != 0) {
             beforePrintTime = System.nanoTime();
         }

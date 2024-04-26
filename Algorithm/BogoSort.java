@@ -23,7 +23,7 @@ public class BogoSort extends SuperSort implements ISort{
         panel.setProgress(0);
 
         long lastIndexUpdate = System.currentTimeMillis();
-        final int millisPerUpdate = 100;
+        final int millisPerUpdate = 105;
         
         long beforeSortTime = System.nanoTime();
         while(unsorted) {
