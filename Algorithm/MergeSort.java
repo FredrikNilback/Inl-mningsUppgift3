@@ -73,7 +73,7 @@ public class MergeSort extends SuperSort implements ISort {
         int i = 0, j = 0, k = leftIndex;
         while(i < leftArraySize && j < rightArraySize) {
 
-            if (leftArray[i] <= rightArray[j]) {
+            if(leftArray[i] <= rightArray[j]) {
 
                 mergeArray[k] = leftArray[i];
                 i++;
