@@ -14,29 +14,26 @@ public class SelectionSort extends SuperSort implements ISort {
         panel.setBogo(false);
         panel.setProgress(0);
         sortedArray = new int[unsortedArray.length];
-        boolean[] indicesUsed = new boolean[unsortedArray.length]; 
+        int[] arrayCopy = unsortedArray.clone(); 
 
-        int[] arrayCopy = unsortedArray.clone();
         long beforeSortTime = System.nanoTime();
         for(int i = 0; i < sortedArray.length; i++) {
-            int minimumValueFound = Integer.MAX_VALUE;
-            int minimumIndex = -1; 
-    
-            for(int j = 0; j < arrayCopy.length; j++) {
 
-                if(indicesUsed[j]) {
-                    continue;
-                }
-    
+            int minimumValueFound = Integer.MAX_VALUE;
+            int minIndex = -1;
+            for(int j = i; j < arrayCopy.length; j++) {
+
                 if(arrayCopy[j] < minimumValueFound) {
                     minimumValueFound = arrayCopy[j];
-                    minimumIndex = j;
+                    minIndex = j;
                 }
             }
             
             sortedArray[i] = minimumValueFound;
-            indicesUsed[minimumIndex] = true; 
-    
+            int temp = arrayCopy[i];
+            arrayCopy[i] = arrayCopy[minIndex];
+            arrayCopy[minIndex] = temp;
+
             double completionPercentage = ((double)(i + 1) / sortedArray.length) * 100;
             int completionNumber = (int)(completionPercentage / 10);
             panel.setProgress(completionNumber);
@@ -50,6 +47,5 @@ public class SelectionSort extends SuperSort implements ISort {
         panel.setStatisticsMessage(secondsToSortString, 1);  
 
         panel.setSortedArray(sortedArray);
-
     }
 }
